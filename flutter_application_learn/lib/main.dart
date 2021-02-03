@@ -1,6 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  Future<String> result;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    result = getData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+          child: Text(
+            result.toString(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Future<String> getData() async {
+  var response =
+      await http.get('https://jsonplaceholder.typicode.com/albums/1');
+  return response.body;
+}
+
+/*
+//Provider Shopping Cart
 import 'package:flutter_application_learn/shoppingCart/models/catalog.dart';
 import 'package:flutter_application_learn/shoppingCart/models/cart.dart';
 import 'package:flutter_application_learn/shoppingCart/theme.dart';
@@ -8,9 +60,6 @@ import 'package:flutter_application_learn/shoppingCart/screens/login.dart';
 import 'package:flutter_application_learn/shoppingCart/screens/catalog.dart';
 import 'package:flutter_application_learn/shoppingCart/screens/cart.dart';
 
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatelessWidget {
   @override
@@ -39,6 +88,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+*/
 
 /*
 //Json Testing - https://jsonplaceholder.typicode.com/posts
